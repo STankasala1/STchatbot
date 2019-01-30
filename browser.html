@@ -5,7 +5,7 @@
 <script>
 	var ws1;
 function init(){
-	ws1 = new WebSocket('ws://localhost:3000/');
+	ws1 = new WebSocket('ws://104.248.72.137:80/');
 	console.log("starting");
 	ws1.onopen = function(event){
 	ws1.send('Hello from Browser!');
