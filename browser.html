@@ -3,7 +3,7 @@
 <button type='button' onclick="postMessage()">Post Message</button>
 <div id='messages'></div>
 <script>
-	var ws1;
+	const ws1 = require('ws');
 function init(){
 	ws1 = new WebSocket('ws://104.248.72.137:3000/');
 	console.log("starting");
