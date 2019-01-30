@@ -3,7 +3,7 @@
 <button type='button' onclick="postMessage()">Post Message</button>
 <div id='messages'></div>
 <script>
-	var WebSockerServer = require('ws').Server;
+	var WebSocket = require('ws').Server;
 	var ws1;
 function init(){
 	ws1 = new WebSocket('ws://104.248.72.137:3000/');
