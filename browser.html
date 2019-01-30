@@ -3,30 +3,37 @@
 <button type='button' onclick="postMessage()">Post Message</button>
 <div id='messages'></div>
 <script>
-	var WebSocket = require('ws').Server;
-	var ws1;
-function init(){
-	ws1 = new WebSocket('ws://104.248.72.137:3000/',{perMessageDeflate:false});
-	console.log("starting");
-	ws1.onopen = function(event){
-	ws1.send('Hello from Browser!');
-}
-   ws1.onmessage = function(event){
-   console.log('Message back from server');
-   displayMessage(event);
-}
-}
-function postMessage(){
-	
-	
-	var message = document.getElementById("message").value;
-	console.log(message);
-	ws1.send(message);
-}
-function displayMessage(event){
-	var messages = document.getElementById('messages');
-	var newMessage = "<div>" + event.data + "</div>";
-	messages.innerHTML = messages.innerHTML + newMessage;
-}
-init();
+var WebSocketClient = require('websocket').client;
+ 
+var client = new WebSocketClient();
+ 
+client.on('connectFailed', function(error) {
+    console.log('Connect Error: ' + error.toString());
+});
+ 
+client.on('connect', function(connection) {
+    console.log('WebSocket Client Connected');
+    connection.on('error', function(error) {
+        console.log("Connection Error: " + error.toString());
+    });
+    connection.on('close', function() {
+        console.log('echo-protocol Connection Closed');
+    });
+    connection.on('message', function(message) {
+        if (message.type === 'utf8') {
+            console.log("Received: '" + message.utf8Data + "'");
+        }
+    });
+    
+    function sendNumber() {
+        if (connection.connected) {
+            var number = Math.round(Math.random() * 0xFFFFFF);
+            connection.sendUTF(number.toString());
+            setTimeout(sendNumber, 1000);
+        }
+    }
+    sendNumber();
+});
+ 
+client.connect('ws://localhost:8080/', 'echo-protocol');
 </script></html>
