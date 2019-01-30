@@ -1,27 +1,30 @@
 <html>
 <input type='text' id='message' placeholder="Message">
-<button type='button' onclick="postMessage">Post Message</button>
+<button type='button' onclick="postMessage()">Post Message</button>
 <div id='messages'></div>
 <script>
-	var websocket;
+	var ws1;
 function init(){
-	websocket = new WebSocket('ws://159.65.101.224:8080');
-
-	websocket.onopen = function(evt){
-	websocket.send('Hello from Browser!');
-};
-   websocket.onmessage = function(evt){
+	ws1 = new WebSocket('ws://localhost:3000/');
+	console.log("starting");
+	ws1.onopen = function(event){
+	ws1.send('Hello from Browser!');
+}
+   ws1.onmessage = function(event){
    console.log('Message back from server');
-   displayMessage(evt);
-};
+   displayMessage(event);
+}
 }
 function postMessage(){
-	var message = document.getElementbyID("message").value;
-	websocket.send(message);
+	
+	
+	var message = document.getElementById("message").value;
+	console.log(message);
+	ws1.send(message);
 }
-function displayMessage(evt){
-	var messages = document.getElementByID('messages');
-	var newMessage = "<div>" + evt.data + "</div>";
+function displayMessage(event){
+	var messages = document.getElementById('messages');
+	var newMessage = "<div>" + event.data + "</div>";
 	messages.innerHTML = messages.innerHTML + newMessage;
 }
 init();
