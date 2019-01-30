@@ -1,6 +1,9 @@
+
+
 var WebSockerServer = require('ws').Server;
-var wss = new WebSockerServer({port:8080});
-console.log('running on port 8080');
+var wss = new WebSockerServer({port:3000});
+
+console.log('running on port 80');
 
 wss.on('connection', function(ws){
 	console.log('connected');
@@ -10,3 +13,4 @@ wss.on('connection', function(ws){
 		})
 	})
 })
+
